@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="{{LANG}}">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{NAME}} — Cover Letter</title>
+<style>
+  /* ============================================================
+     COVER LETTER TEMPLATE · Warm Editorial
+     Matches cv-template.html — same design language.
+     Self-contained: system font stacks only (no CDN, no font files).
+     ============================================================ */
+
+  :root {
+    --ink:        #1a1c22;
+    --body:       #2b2d34;
+    --muted:      #5c5f67;
+    --faint:      #8a8d95;
+    --rule:       #e2e3e0;
+    --rule-soft:  #ececea;
+    --bg:         #ffffff;
+    --accent:     oklch(0.45 0.066 222);
+    --accent-soft:oklch(0.965 0.016 222);
+    --tag-border: oklch(0.88 0.030 222);
+
+    --serif: 'Iowan Old Style', 'Palatino Linotype', 'Palatino', 'Book Antiqua', Georgia, 'Noto Serif', 'Times New Roman', serif;
+    --sans:  system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+  body {
+    font-family: var(--sans);
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--body);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .page {
+    width: 100%;
+    max-width: {{PAGE_WIDTH}};
+    margin: 0 auto;
+    padding: 2px 0;
+  }
+
+  /* ===================== HEADER ===================== */
+  .header {
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--ink);
+  }
+
+  .header h1 {
+    font-family: var(--serif);
+    font-size: 30px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.014em;
+    line-height: 1.02;
+    margin-bottom: 7px;
+  }
+
+  .contact-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 5px 11px;
+    font-size: 10px;
+    letter-spacing: 0.01em;
+    color: var(--muted);
+  }
+
+  .contact-row .separator { color: var(--rule); }
+
+  /* ===================== META BLOCK ===================== */
+  .meta-block {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+
+  .addressee-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .addressee-company {
+    font-family: var(--sans);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--ink);
+  }
+
+  .addressee-title {
+    font-size: 10.5px;
+    color: var(--muted);
+  }
+
+  .re-line {
+    font-size: 10.5px;
+    color: var(--muted);
+    margin-top: 6px;
+  }
+
+  .re-line strong {
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .date-location {
+    text-align: right;
+    font-size: 10px;
+    color: var(--faint);
+    letter-spacing: 0.01em;
+    line-height: 1.6;
+  }
+
+  /* ===================== SALUTATION ===================== */
+  .salutation {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 16px;
+  }
+
+  /* ===================== BODY ===================== */
+  .letter-body {
+    display: flex;
+    flex-direction: column;
+    gap: 13px;
+    margin-bottom: 24px;
+  }
+
+  .letter-body p {
+    font-size: 11px;
+    line-height: 1.75;
+    color: var(--body);
+    text-align: justify;
+    hyphens: auto;
+  }
+
+  /* ===================== SIGNATURE ===================== */
+  .signature {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .signature .closing {
+    font-size: 11px;
+    color: var(--body);
+    margin-bottom: 18px;
+  }
+
+  .signature .sig-name {
+    font-family: var(--serif);
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+    letter-spacing: -0.01em;
+  }
+
+  .signature .sig-sub {
+    font-size: 9.5px;
+    color: var(--muted);
+    margin-top: 2px;
+  }
+
+  @media print {
+    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .page { padding: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- HEADER -->
+  <header class="header">
+    <h1>{{NAME}}</h1>
+    <div class="contact-row">
+      <span>{{PHONE}}</span>
+      <span class="separator">/</span>
+      <span>{{EMAIL}}</span>
+      <span class="separator">/</span>
+      <a href="{{LINKEDIN_URL}}">{{LINKEDIN_DISPLAY}}</a>
+      <span class="separator">/</span>
+      <a href="{{PORTFOLIO_URL}}">{{PORTFOLIO_DISPLAY}}</a>
+      <span class="separator">/</span>
+      <span>{{LOCATION}}</span>
+    </div>
+  </header>
+
+  <!-- META: date + addressee -->
+  <div class="meta-block">
+    <div class="addressee-block">
+      <span class="addressee-company">{{COMPANY_NAME}}</span>
+      <span class="addressee-title">{{ADDRESSEE}}</span>
+      <span class="re-line">Re: <strong>{{ROLE_TITLE}}</strong></span>
+    </div>
+    <div class="date-location">
+      <div>{{DATE}}</div>
+      <div>{{LOCATION}}</div>
+    </div>
+  </div>
+
+  <!-- SALUTATION -->
+  <div class="salutation">Dear {{ADDRESSEE}},</div>
+
+  <!-- BODY -->
+  <div class="letter-body">
+    <p>{{OPENING_PARAGRAPH}}</p>
+    <p>{{BODY_PARAGRAPH_1}}</p>
+    <p>{{BODY_PARAGRAPH_2}}</p>
+    <p>{{CLOSING_PARAGRAPH}}</p>
+  </div>
+
+  <!-- SIGNATURE -->
+  <div class="signature">
+    <span class="closing">Sincerely,</span>
+    <span class="sig-name">{{NAME}}</span>
+    <span class="sig-sub">{{LOCATION}} · {{EMAIL}}</span>
+  </div>
+
+</div>
+</body>
+</html>
