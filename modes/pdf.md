@@ -15,6 +15,7 @@
 9. Reorder experience bullets by JD relevance
 10. Build competency grid from JD requirements (6-8 keyword phrases)
 11. Inject keywords naturally into existing achievements (NEVER invent)
+11b. Select publications (see Publications section below)
 12. Generate full HTML from template + personalized content
 13. Read `name` from `config/profile.yml` → normalize to kebab-case lowercase (e.g. "John Doe" → "john-doe") → `{candidate}`
 14. Write HTML to `/tmp/cv-{candidate}-{company}.html`
@@ -52,6 +53,43 @@
 6. Education & Certifications
 7. Skills (languages + technical)
 
+## Publications selection
+
+Read the full publications list from `cv.md`. Select **4–7 entries** to show in the CV — always include books, then fill remaining slots with papers most relevant to the JD.
+
+**Selection rules:**
+- **Books always included** (all 4). List publisher + year; for the Wiley AD book add "(foreword by BMW)".
+- **Papers: pick 2–4** based on JD relevance — prioritize domain match over venue prestige.
+  - Inference / ML systems JD → DL compiler (Wu 2025), JSTSP distributed edge learning
+  - Autonomous driving / CCAM JD → TITS 2026 collaborative perception, ECCV 2024 V2X-SVD, VTC2025 Dynamic-PBFT
+  - Legal AI / RegTech JD → AIES 2018 privacy-preserving ML; Wiley AD book (regulatory landscape)
+  - Federated learning / edge AI JD → TSC, TNSE, TITS participant selection, P2P papers
+  - Agent / LLM systems JD → SIGCOMM 2018, SOSP 2017 (data analytics services)
+- Add a trailing line: *"Selected from N peer-reviewed publications. Full list: jianxin.ocaml.xyz/research/"*
+
+**HTML format** (one block per entry, books first then papers):
+```html
+<div class="pub-item">
+  <div class="pub-header">
+    <span class="pub-title">Title</span>
+    <span class="pub-year">2026</span>
+  </div>
+  <div class="pub-authors">Author A, Author B, ... <span class="pub-type pub-type--{TYPE}">TYPE LABEL</span></div>
+  <div class="pub-venue">Publisher / Journal / Conference</div>
+</div>
+```
+
+**Type tags** — always include inline at the end of the `pub-authors` line:
+| Entry type | Class | Label |
+|------------|-------|-------|
+| Book (candidate is author, not editor) | `pub-type--book` | `Book · Author` |
+| Journal paper | `pub-type--journal` | `Journal` |
+| Conference paper | `pub-type--conference` | `Conference` |
+
+For books, use the publisher as `pub-venue`. For papers, use the journal/conference name (abbreviated form is fine: *IEEE TITS*, *ECCV 2024*).
+
+---
+
 ## Keyword injection strategy (ethical, truth-based)
 
 Examples of legitimate reformulation:
@@ -85,6 +123,8 @@ Use the template in `cv-template.html`. Replace the `{{...}}` placeholders with 
 | `{{EXPERIENCE}}` | HTML for each job with reordered bullets |
 | `{{SECTION_PROJECTS}}` | Projects |
 | `{{PROJECTS}}` | HTML for top 3-4 projects |
+| `{{SECTION_PUBLICATIONS}}` | Selected Publications |
+| `{{PUBLICATIONS}}` | HTML pub-item blocks (books first, then 2-4 papers) |
 | `{{SECTION_EDUCATION}}` | Education |
 | `{{EDUCATION}}` | Education HTML |
 | `{{SECTION_CERTIFICATIONS}}` | Certifications |
