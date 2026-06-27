@@ -1,235 +1,138 @@
 <!DOCTYPE html>
-<html lang="{{LANG}}">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>{{NAME}} — Cover Letter</title>
+<title>Cover Letter — {{NAME}}</title>
 <style>
-  /* ============================================================
-     COVER LETTER TEMPLATE · Warm Editorial
-     Matches cv-template.html — same design language.
-     Self-contained: system font stacks only (no CDN, no font files).
-     ============================================================ */
-
-  :root {
-    --ink:        #1a1c22;
-    --body:       #2b2d34;
-    --muted:      #5c5f67;
-    --faint:      #8a8d95;
-    --rule:       #e2e3e0;
-    --rule-soft:  #ececea;
-    --bg:         #ffffff;
-    --accent:     oklch(0.45 0.066 222);
-    --accent-soft:oklch(0.965 0.016 222);
-    --tag-border: oklch(0.88 0.030 222);
-
-    --serif: 'Iowan Old Style', 'Palatino Linotype', 'Palatino', 'Book Antiqua', Georgia, 'Noto Serif', 'Times New Roman', serif;
-    --sans:  system-ui, -apple-system, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, 'Noto Sans', sans-serif;
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    /* Disable fi/fl/ffi ligatures. Headless Chromium substitutes these letter
+       pairs with the Unicode glyphs U+FB01/FB02/FB03 at PDF layout time, and PDF
+       text extractors (what ATS systems read) decode them back to those
+       codepoints, so "verification" becomes "veriﬁcation" and a literal keyword
+       search misses it. Required ligatures (rlig) stay on. */
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
   }
 
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  html {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
 
   body {
-    font-family: var(--sans);
-    font-size: 11px;
-    line-height: 1.6;
-    color: var(--body);
-    background: var(--bg);
-    -webkit-font-smoothing: antialiased;
-    text-rendering: optimizeLegibility;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.4;
+    color: #1a1a1a;
+    background: #ffffff;
+    /* Disable ligatures here as well; see the * rule above. */
+    font-variant-ligatures: none;
+    font-feature-settings: "liga" 0, "clig" 0, "dlig" 0;
   }
 
-  a { color: inherit; text-decoration: none; }
-
-  .page {
-    width: 100%;
-    max-width: {{PAGE_WIDTH}};
-    margin: 0 auto;
-    padding: 2px 0;
-  }
-
-  /* ===================== HEADER ===================== */
-  .header {
-    margin-bottom: 20px;
-    padding-bottom: 12px;
-    border-bottom: 1px solid var(--ink);
-  }
-
-  .header h1 {
-    font-family: var(--serif);
-    font-size: 30px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: -0.014em;
-    line-height: 1.02;
-    margin-bottom: 7px;
-  }
-
-  .contact-row {
-    display: flex;
-    flex-wrap: wrap;
-    align-items: baseline;
-    gap: 5px 11px;
-    font-size: 10px;
-    letter-spacing: 0.01em;
-    color: var(--muted);
-  }
-
-  .contact-row .separator { color: var(--rule); }
-
-  /* ===================== META BLOCK ===================== */
-  .meta-block {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 24px;
-  }
-
-  .addressee-block {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  .addressee-company {
-    font-family: var(--sans);
-    font-size: 11px;
+  .name {
     font-weight: 700;
-    color: var(--ink);
+    font-size: 14pt;
+    margin-bottom: 3pt;
   }
 
-  .addressee-title {
-    font-size: 10.5px;
-    color: var(--muted);
+  .contact, .credentials {
+    font-size: 9pt;
+    color: #666666;
+    line-height: 1.3;
+    margin-bottom: 2pt;
   }
 
-  .re-line {
-    font-size: 10.5px;
-    color: var(--muted);
-    margin-top: 6px;
+  .contact a, .credentials a, .footnotes a {
+    color: #1a56a0;
+    text-decoration: none;
   }
 
-  .re-line strong {
-    color: var(--accent);
-    font-weight: 600;
+  .divider {
+    border: none;
+    border-top: 0.5pt solid #cccccc;
+    margin: 6pt 0 8pt;
   }
 
-  .date-location {
-    text-align: right;
-    font-size: 10px;
-    color: var(--faint);
-    letter-spacing: 0.01em;
-    line-height: 1.6;
+  .role-title {
+    font-weight: 700;
+    font-size: 11pt;
+    margin-top: 10pt;
+    margin-bottom: 2pt;
   }
 
-  /* ===================== SALUTATION ===================== */
-  .salutation {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 16px;
+  .dateline {
+    font-size: 9pt;
+    color: #666666;
+    margin-bottom: 12pt;
   }
 
-  /* ===================== BODY ===================== */
-  .letter-body {
-    display: flex;
-    flex-direction: column;
-    gap: 13px;
-    margin-bottom: 24px;
+  .greeting {
+    margin-bottom: 8pt;
   }
 
-  .letter-body p {
-    font-size: 11px;
-    line-height: 1.75;
-    color: var(--body);
-    text-align: justify;
-    hyphens: auto;
+  p {
+    margin-bottom: 8pt;
   }
 
-  /* ===================== SIGNATURE ===================== */
-  .signature {
-    display: flex;
-    flex-direction: column;
-    gap: 3px;
+  .achievements {
+    list-style: none;
+    margin-bottom: 4pt;
   }
 
-  .signature .closing {
-    font-size: 11px;
-    color: var(--body);
-    margin-bottom: 18px;
+  .achievements li {
+    margin-bottom: 5pt;
+    padding-left: 14pt;
+    position: relative;
   }
 
-  .signature .sig-name {
-    font-family: var(--serif);
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-    letter-spacing: -0.01em;
+  .achievements li::before {
+    content: "\2022";
+    position: absolute;
+    left: 0;
   }
 
-  .signature .sig-sub {
-    font-size: 9.5px;
-    color: var(--muted);
-    margin-top: 2px;
+  .language-closing {
+    font-style: italic;
+    margin-top: 4pt;
+    margin-bottom: 8pt;
   }
 
-  @media print {
-    body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-    .page { padding: 0; }
+  .footnotes {
+    margin-top: 10pt;
+    padding-top: 4pt;
+    border-top: 0.5pt solid #cccccc;
+  }
+
+  .footnotes p {
+    font-size: 8pt;
+    color: #888888;
+    line-height: 1.3;
+    margin-bottom: 3pt;
   }
 </style>
 </head>
 <body>
-<div class="page">
+  <div class="name">{{NAME}}</div>
+  <div class="contact">{{CONTACT_LINE}}</div>
+  {{CREDENTIALS_BLOCK}}
+  <hr class="divider">
 
-  <!-- HEADER -->
-  <header class="header">
-    <h1>{{NAME}}</h1>
-    <div class="contact-row">
-      <span>{{PHONE}}</span>
-      <span class="separator">/</span>
-      <span>{{EMAIL}}</span>
-      <span class="separator">/</span>
-      <a href="{{LINKEDIN_URL}}">{{LINKEDIN_DISPLAY}}</a>
-      <span class="separator">/</span>
-      <a href="{{PORTFOLIO_URL}}">{{PORTFOLIO_DISPLAY}}</a>
-      <span class="separator">/</span>
-      <span>{{LOCATION}}</span>
-    </div>
-  </header>
+  <div class="role-title">Cover Letter: {{ROLE_TITLE}}</div>
+  <div class="dateline">{{DATELINE}}</div>
 
-  <!-- META: date + addressee -->
-  <div class="meta-block">
-    <div class="addressee-block">
-      <span class="addressee-company">{{COMPANY_NAME}}</span>
-      <span class="addressee-title">{{ADDRESSEE}}</span>
-      <span class="re-line">Re: <strong>{{ROLE_TITLE}}</strong></span>
-    </div>
-    <div class="date-location">
-      <div>{{DATE}}</div>
-      <div>{{LOCATION}}</div>
-    </div>
-  </div>
+  {{GREETING_BLOCK}}
+  <p>{{OPENING}}</p>
+  <p>{{PROFILE_INTRO}}</p>
 
-  <!-- SALUTATION -->
-  <div class="salutation">Dear {{ADDRESSEE}},</div>
+  {{ACHIEVEMENTS_BLOCK}}
 
-  <!-- BODY -->
-  <div class="letter-body">
-    <p>{{OPENING_PARAGRAPH}}</p>
-    <p>{{BODY_PARAGRAPH_1}}</p>
-    <p>{{BODY_PARAGRAPH_2}}</p>
-    <p>{{CLOSING_PARAGRAPH}}</p>
-  </div>
-
-  <!-- SIGNATURE -->
-  <div class="signature">
-    <span class="closing">Sincerely,</span>
-    <span class="sig-name">{{NAME}}</span>
-    <span class="sig-sub">{{LOCATION}} · {{EMAIL}}</span>
-  </div>
-
-</div>
+  {{PROBLEMS_BLOCK}}
+  {{CLOSING_BLOCK}}
+  {{LANGUAGE_CLOSING_BLOCK}}
+  {{FOOTNOTES_BLOCK}}
 </body>
 </html>
