@@ -11,6 +11,23 @@
 - For agent roles: lead with Legal AI system (LibreChat + MCP), token cost research, and agentic workflow design
 - Acknowledge that current portfolio is research-stage on inference specifically — compensate with depth of adjacent systems work and rapid learning track record
 - Never pitch as a training specialist; always reframe past distributed/federated work as "systems thinking that now applies to serving"
+- KnowledgeBase-S is a **production LLM application, personally built and deployed** — never frame it as a "personal wiki/side project"
+
+---
+
+## Interview Narrative — "What's your experience with LLMs?" (90-second answer)
+
+Use this framing in Block F interview prep, cover letters, and any narrative output. It is the canonical version — rehearsed, not improvised.
+
+> "My LLM experience runs along two tracks. On the **application side**, I built and deployed an LLM-powered knowledge platform that's in production pilot with a law firm in China — I own the whole stack: a dynamically self-organizing RAG system, agent orchestration with MCP tool use, and domain-specific problems like tracking when legal sources get superseded. Real users, real feedback loops, ongoing iterations. On the **systems side** — which is where my depth is — I work on LLM inference for edge deployment in autonomous driving at KIT. And before the LLM era I spent a decade on the same underlying problems — distributed training, edge deployment, systems optimization — so for me LLMs are a new workload on a stack I know very well."
+
+**Honest-boundary redirect** (when asked about frontier-scale training or high-traffic serving — one honest sentence, immediate pivot, no apology):
+
+> "Not at frontier scale — my training experience is at the fine-tuning and small-model level. Where I go deep is the inference and serving side: memory management, quantization trade-offs, latency under SLA. Happy to go into any of that."
+
+**Hard limits (source-of-truth):** never claim frontier-scale model training, high-traffic production serving, or upstream contributions/projects that don't exist yet. The nano-vLLM engine, Jetson Orin benchmarks, and vLLM PRs are planned work — they must NOT appear in any generated output until real, at which point add them below.
+
+<!-- PLACEHOLDER (activate when real): ## Edge Inference Engine (nano-vLLM) — paged KV cache, continuous batching, W4A16 quantization; Jetson Orin latency measurements; upstream vLLM/SGLang contributions. -->
 
 ---
 
@@ -137,6 +154,66 @@ Parallel & distributed execution (multi-core, GPU, cloud)
 | Strategic Blueprint for Enterprise Analytics | Wiley | Jul 2026 |
 | Architecture of Advanced Numerical Analysis Systems | Apress | Dec 2022 |
 | Functional Programming in Data Science and AI | Springer (Undergrad Topics in CS) | Apr 2022 |
+
+### Autonomous Driving Book — Framing by Role Type
+
+The book is structured in two parts: **Technology** (Ch 1–7) and **Business and Regulation** (Ch 8–14). The technical half is rich enough to serve multiple distinct framing angles beyond the regulatory one. Use the table below to select the right angle at evaluation time.
+
+| Role type | Lead chapter(s) | Key angle |
+|-----------|----------------|-----------|
+| Automotive semiconductor / ML compiler (e.g. NXP, Qualcomm, ARM) | Ch 4 + Ch 5 | E/E architecture evolution, computation hardware landscape, AUTOSAR middleware — understands the deployment context for the chips and compiler targets |
+| Automotive ADAS / perception / AD research (e.g. Waymo, Mobileye) | Ch 2 + Ch 3 + Ch 7 | Full algorithm coverage: localization, SLAM, object tracking, motion planning, end-to-end AD; collaborative perception and V2X system architecture |
+| Safety-critical embedded / functional safety | Ch 4.4 + Ch 14 | Hardware for safety (Safety CPU, Hardware Safety Manager, external MCUs), ISO 26262 ASIL product development, SOTIF — published familiarity with automotive safety standards |
+| Legal AI / RegTech / Compliance AI | Ch 14 | Functional safety (ISO 26262), SOTIF, EU type-approval, GDPR intersection — regulatory depth validated by BMW foreword |
+| Autonomous driving startup / business roles | Ch 9 + Ch 11 | Value chain (domain controllers, sensors, component providers), commercialization tarpit, ADAS company landscape |
+
+---
+
+**Ch 4 — Hardware Platform (pp. 87–107): the automotive silicon angle**
+
+Covers: brief history of automotive chips (§4.1), E/E architecture evolution (§4.2), computation hardware overview (§4.3), hardware for safety — Safety CPU, Information Safety, Hardware Safety Manager, external MCUs (§4.4), Snapdragon computation platforms (§4.5), communication hardware — bus systems, Automotive Ethernet, PCIe (§4.6).
+
+**Why it matters for compiler/semiconductor roles (NXP, Qualcomm, ARM, Mobileye):**
+- E/E architecture evolution (§4.2) is the macro trend NXP is betting on: the shift from distributed ECU-based architectures to centralized/zonal compute. A compiler engineer who understands *why* this is happening can reason about which NPU targets actually matter and how compilation strategies should evolve.
+- §4.4 covers safety CPU and Hardware Safety Manager concepts — NXP's ASIL-certified chips are exactly this category. Shows familiarity with the hardware constraints the compiler must respect (real-time, safety partitioning, lockstep CPU modes).
+- §4.6 communication hardware (CAN, Automotive Ethernet, PCIe) — the inter-chip fabric that compiled model outputs traverse. Understanding bus latency constraints informs compilation trade-offs.
+
+**Frame as:** "My Wiley book includes a dedicated chapter on automotive hardware platforms and E/E architecture evolution — I understand the silicon landscape and deployment context for the compiler targets I'd be working with."
+
+---
+
+**Ch 5 — Software Platform (pp. 109–131): the AUTOSAR / OS angle**
+
+Covers: software architecture overview (§5.1), hypervisor (§5.2), AUTOSAR Classic and Adaptive AUTOSAR (§5.3 — including SWC development process), OS Core — QNX as guest OS, vendor-specific tools (§5.4), functional and application software layers (§5.5–5.6), vehicle-cloud synergy (§5.7), case study: evolution of Baidu Apollo (§5.8).
+
+**Why it matters:**
+- AUTOSAR Classic and Adaptive (§5.3) is the middleware stack on which automotive software components (SWCs) run — including ML inference components that MLIR/IREE compiled models get packaged into. A compiler engineer who understands the AUTOSAR SWC development process knows what constraints the binary output must satisfy.
+- Hypervisor (§5.2) and QNX (§5.4.2) — the runtime environment for safety-critical automotive compute. Published familiarity signals awareness of the OS-level constraints RTOS imposes on compiled code (real-time scheduling, memory isolation, deterministic execution).
+- Adaptive AUTOSAR (§5.3.3) is the modern interface for ADAS domain controllers — precisely where NXP's S32G processor family targets.
+
+**Frame as:** "I've written about AUTOSAR and automotive OS architecture — I understand the runtime environment that MLIR-compiled inference components are deployed into, which directly shapes compilation optimization priorities."
+
+---
+
+**Ch 7 — V2X: Cooperative Driving (pp. 161–177): the CCAM / V2X angle**
+
+Covers: DSRC and C-V2X (§7.1), application scenarios including vehicle-infrastructure-cloud integration (§7.2), global V2X regulatory efforts across US/EU/South Korea/China (§7.3), collaborative perception — system architecture, information fusion strategies, datasets and benchmarks (§7.4).
+
+**Why it matters:** Directly overlaps with Jianxin's CulturalRoad EU Horizon program work and IEEE TITS 2026 systematic review. The book's V2X chapter and the research publications are mutually reinforcing — the book provides the system-level and regulatory framing; the papers provide the research depth. Use this when applying to V2X, CCAM, or connected vehicles roles.
+
+**Frame as:** "My published book chapter on V2X and collaborative perception complements my research publications — the IEEE TITS systematic review covers the technical depth, the book frames the ecosystem and regulatory context."
+
+---
+
+**Ch 14 — Safety Standards and Regulations (pp. 307–328): the functional safety angle**
+
+Covers: functional safety — concept phase, product development, ISO 26262 components (§14.1), Safety of the Intended Functionality — SOTIF (§14.2), information safety (§14.3).
+
+**Why it matters for compiler/embedded roles:** ISO 26262 ASIL requirements directly constrain compiler output for safety-critical automotive applications. A compiler engineer who understands ASIL levels, the concept phase, and hardware-software interface requirements (from the product development section) can make better decisions about code generation, static analysis integration, and safety partitioning in the compilation flow.
+
+**Frame as:** "I've covered ISO 26262 functional safety and SOTIF in depth — I understand the certification constraints that automotive compiler output must satisfy, which is not a common background for compiler engineers."
+
+---
 
 **Legal AI / RegTech angle — Autonomous Driving book:**
 The Wiley book covers regulations governing autonomous vehicles in depth — EU type-approval rules, liability frameworks, GDPR intersection, cross-border policy. Foreword written by an industry expert from BMW — signals recognition from a Tier 1 automotive OEM, not just academic peers. This is directly useful when applying to Legal AI, RegTech, Compliance AI, or automotive AI roles: demonstrates published domain expertise in AI regulation validated by industry. Frame as: "Published author on the regulatory landscape of AI systems (Wiley, 2026), with foreword by BMW" — especially strong for companies dealing with EU AI Act compliance, automotive regulation (UNECE WP.29), or cross-jurisdictional policy analysis.
